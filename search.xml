@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Standard-IO</title>
+    <url>/2024/6c83/</url>
+    <content><![CDATA[<h2 id="UNIX系统文件IO"><a href="#UNIX系统文件IO" class="headerlink" title="UNIX系统文件IO"></a>UNIX系统文件IO</h2><blockquote>
+<p>相关库: unistd.h</p>
+<p>IO操作: 系统空间&lt;–数据–&gt;物理设备(终端,磁盘文件等)</p>
+</blockquote>
+<p>文件IO都是无缓冲IO(unbuffered IO)，<font color="blue">不在ISO C标准内</font>文件IO主要函数为<code>open,read,write,lseek,close</code>,因为每调用一个<code>read,write</code>都会执行一次内核中的一次系统调用(read,write),文件IO通过文件描述符(FD)引用文件。</p>
+<span id="more"></span>
+
+<ul>
+<li>read函数读取文件内容过程，进程调用系统调用read将数据加载到内核页缓存（read ahead），随后进程从页缓存读取需要的数据到进程用户空间（read函数指定的buffer）下次read调用可能直接从页缓存请求数据了，不需要执行IO操作，（#ryany_question:这是不是都是内核态操作）</li>
+<li>write函数写入文件，write使用<code>delayed write</code>机制写入数据到磁盘,见下文</li>
+</ul>
+<p>附:</p>
+<ul>
+<li>文件描述符,进程通过文件描述符引用文件(一个正整数)<ul>
+<li>特殊系统描述符<ul>
+<li><code>0</code>:程序标准输入,linux系统中可以等价于<code>/dev/stdin</code>使用</li>
+<li><code>1</code>:程序标准输出</li>
+<li><code>2</code>:程序标准错误输出</li>
+</ul>
+</li>
+<li>linux系统下<code>/dev/fd/</code>下可以看到系统中现有的文件描述符<ul>
+<li>系统中fd最大值可以使用<code>ulimit -n</code>查看,这说明系统进程最多支持使用这么多数的文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>文件IO读写缓冲(系统层级对减少IO操作的优化)<ul>
+<li><code>read ahead</code><ul>
+<li>这种机制是由文件系统支持的</li>
+<li>系统调用read请求从磁盘顺序读取数据，系统会试图读取大于要求的数据，并假定进程会很快使用这些数据</li>
+<li>文件系统将磁盘划分为块,这是用户存储数据的最小单位<code>dumpe2fs /dev/sdb | grep &quot;Block size&quot; --&gt; 4096</code>，对于大文件指定buffersize为这个blocksize的整数倍将效率最好，见epua手册图3-6</li>
+</ul>
+</li>
+<li><code>delayed write</code><ul>
+<li>系统调用write写入数据到磁盘，系统会将这些待写入的数据块暂存到内核页缓存，并将操作排入队列，待累积一定量之后写入磁盘</li>
+<li>显性调用相关函数<code>fsync,fdatasync</code>将冲洗缓冲，将数据写入磁盘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ISO-C-Standard-IO"><a href="#ISO-C-Standard-IO" class="headerlink" title="ISO-C_Standard-IO"></a>ISO-C_Standard-IO</h2><blockquote>
+<p>类unix系统中，标准IO底层也是系统read，write调用</p>
+<p>类unix系统中，标准IO感觉更像对文件IO的封装，流将文件IO封装起来，用户不需要关心底层文件IO的工作，大大降低了操作难度，尤其引入流缓冲区，大大提高了IO效率</p>
+<p>文件IO很多操作被标准IO隐藏到了流缓冲&lt;–&gt;设备&#x2F;文件这个过程当中去了,而这个过程是自动的</p>
+</blockquote>
+<p>标准IO操作围绕流展开，程序员使用一个FILE指针在代码内操作流，这个指针指向一个结构体，结构体内有被引用文件文件描述符，流缓冲指针等信息。</p>
+<h3 id="缓冲-buffering"><a href="#缓冲-buffering" class="headerlink" title="缓冲(buffering)"></a>缓冲(buffering)</h3><p>缓冲的引入,降低了系统<code>read,write</code>调用的次数,(这个缓冲位于内存用户空间)程序从流缓冲区读取数据或者写入数据,提高了IO效率,<font color="red">缓冲是流的属性</font>,标准IO提供以下几种缓冲</p>
+<ul>
+<li><p>buffered</p>
+<ul>
+<li><p>line buffering</p>
+<ul>
+<li><p>当流引用交互式设备,使用行缓冲,像关联到终端的stdin,stdout(当然我们可以让这些流重定向到文件)</p>
+</li>
+<li><p>写出:(程序终端标准输出)所有用户想要写出的内容都被写入流缓冲,行缓冲在当缓冲区满,或者缓冲区出现换行符,冲洗缓冲(fflush),流被关闭时才会将缓冲区内容写出(IO操作)</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> c;</span><br><span class="line">    c = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    <span class="built_in">putchar</span>(c);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;hello\n&quot;</span>);<span class="comment">//printf(&quot;hello&quot;);</span></span><br><span class="line">    sleep(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  以上代码运行可见全缓冲IO操作的时刻,printf不打印换行符时,将在延迟10s后,程序结束,流被关闭时,数据被写出到终端,当printf打印换行符时,在延迟10s前,数据就被写出到终端了</p>
+</li>
+<li><p>读入:(终端stdin)用户输入时数据读到缓冲区,当缓冲区中出现换行符时,程序从缓冲区读取数据</p>
+</li>
+</ul>
+</li>
+<li><p>full buffering</p>
+<ul>
+<li><p>流引用文件,默认使用全缓冲,系统默认流缓冲大小为8K,unix文件IO章节(epua手册)中测试了read缓冲区大小设置对IO执行效率的影响,因此流缓冲长度应该大于磁盘块长度,并且尽量是它的整数倍长度</p>
+</li>
+<li><p>读入:程序使用标准IO函数请求读入数据,流将调用read读取尽量多的数据(哪怕到EOF,读到EOF不够填充满也可以)区填充满流缓冲,随后程序从流缓冲读取需要的数据,下次fread读取直接从缓冲区读,fread等函数能够正确处理EOF</p>
+</li>
+<li><p>写出:程序写出到文件被写入流缓冲,只有当缓冲满,流关闭,冲洗缓冲时,缓冲区内容被写入文件</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    <span class="type">char</span> *ch = <span class="string">&quot;hello, world!&quot;</span>;</span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">100</span>];</span><br><span class="line">    fp = fopen(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">    fwrite(ch, <span class="number">1</span>, <span class="number">13</span>, fp);</span><br><span class="line">    <span class="comment">//fflush(fp);</span></span><br><span class="line">    sleep(<span class="number">15</span>);</span><br><span class="line">    fclose(fp);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  上述代码在linux中执行,我们使用两个终端,一个运行程序,一个观察文件内容,当fflush被注释时,我们只有当程序结束时,才能看到文件被写入的内容,当fflush被调用时,我们马上能看到被写入的内容(方法比较笨),</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    <span class="type">char</span> *ch = <span class="string">&quot;hello, world!&quot;</span>;</span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">100</span>];</span><br><span class="line">    fp = fopen(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">    fwrite(ch, <span class="number">1</span>, <span class="number">13</span>, fp);</span><br><span class="line">  <span class="comment">//  fflush(fp);</span></span><br><span class="line">    fork();<span class="comment">//unistd.h</span></span><br><span class="line">    fclose(fp);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  改进代码,我们创建进程副本验证fwrite之后,内容有没有被写入文件,很显然,缓冲区内容被克隆到了子进程,最终,我们要写入的内容被重复写入了文件,在fork之前调用fflush之后,我们文件内只有一份内容了</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>non-buffering</p>
+<ul>
+<li>关联到终端的stderr使用无缓冲输出,用户能尽快的看到报错(重定向到文件的stderr使用全缓冲)</li>
+</ul>
+</li>
+</ul>
+<h3 id="标准IO操作"><a href="#标准IO操作" class="headerlink" title="标准IO操作"></a>标准IO操作</h3><blockquote>
+<p>不带f的函数都是操作标准输出输入流的,我们使用带f的函数</p>
+</blockquote>
+<ul>
+<li>每次一个IO,(希望)一个字符接一个字符的读入或者写出<ul>
+<li>fgetc,getc,getchar,fputc,putc,putchar</li>
+</ul>
+</li>
+<li>每次一行IO,(希望)一行接一行的读入或者写出<ul>
+<li>fgets,gets(c11中被废弃,不能指定缓冲区,可能造成流缓冲溢出产生安全问题),fputs,puts</li>
+</ul>
+</li>
+<li>每次一块IO(这是我的叫法,也叫直接IO等,见epua手册5.6章节)<ul>
+<li>fread,fwrite,读取或者写入指定大小的块,书里说用来读取写入结构</li>
+</ul>
+</li>
+</ul>
+<p>以上都是非格式化IO函数,格式化IO函数有printf,scanf</p>
+<p><font color="red">注意:</font>以上IO操作是和流的缓冲是配合工作的,或者说这些IO操作是被流给优化了的,比如,我(程序员)想一行一行的写入文件,但流说:”你这样多慢,我先给你把这些行存下来,使用全缓冲进行写入,这样多快”,这时我的预期和现实就割裂了,这时你如果意识不到这种割裂就容易出岔子.拿捏不准直接fflush</p>
+<h3 id="标准IO提供的函数的一些注意事项-待补充"><a href="#标准IO提供的函数的一些注意事项-待补充" class="headerlink" title="标准IO提供的函数的一些注意事项(待补充)"></a>标准IO提供的函数的一些注意事项(待补充)</h3><ul>
+<li>scanf<ul>
+<li><p>scanf阻塞：若此时缓冲区为空（有回车符也行），你按回车会导致scanf阻塞，直到你输入一个有效值（非回车，不匹配scanf格式也可以），这些回车不会堆积在缓冲区</p>
+</li>
+<li><p>scanf缓冲区回车符残留问题，终端stdin为行缓冲，需要回车符执行IO操作，但scanf不会吸收这个回车，这个回车会残留在缓冲区中，下个scanf可能被这个回车符阻塞，也可能将这个回车符吸收<code>scanf(&quot;%c&quot;,xxx)</code></p>
+</li>
+<li><p>scanf如何处理不合法字符：scanf将跳过不合法（不符合scanf格式要求）的字符，这些字符将残留在缓冲区当中，下面代码如果你输入一个非数字字符，将进入死循环</p>
+</li>
+<li><p>如何处理scanf残留在缓冲区的回车符：<code>scanf(&quot;[space]%x&quot;,xxx) or getchar() before scanf</code>，[space]可以吸收回车等一些字符，若是没有回车残留则需要用户手动输入一个回车</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="type">int</span> c;</span><br><span class="line">getchar();</span><br><span class="line"><span class="keyword">while</span> (<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;c) == <span class="number">0</span>)</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;this is a infinate loop&quot;</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>参考内容</p>
+<ul>
+<li>UNIX环境高级编程书籍</li>
+<li><a href="https://www.gnu.org/software/libc/manual/html_node/Stream-Buffering.html">Stream Buffering (The GNU C Library)</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>init</title>
+    <url>/2024/3652/</url>
+    <content><![CDATA[<p>hello</p>
+]]></content>
+  </entry>
+</search>

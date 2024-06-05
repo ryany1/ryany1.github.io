@@ -1,0 +1,7 @@
+User-agent: *
+
+Disallow: /css/
+Disallow: /images/
+Disallow: /js/
+
+Sitemap: http://ryany1.github.io/sitemap.xml
