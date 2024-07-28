@@ -23,17 +23,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ryany1.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="C语言运算符优先级在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：  后缀运算符  expr++, expr-- (后缀递增和递减) (), [], . (函数调用，数组下标，成员访问) -&gt; (指针成员访问)   单目运算符  ++expr, --expr (前缀递增和递减) +, - (正负号) !, ~ (逻辑非和按位取反) (type">
+    <meta name="description" content="C语言运算符优先级(持续更新)在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：  后缀运算符 expr++, expr-- (后缀递增和递减) (), [], . (函数调用，数组下标，成员访问) -&gt; (指针成员访问)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C运算符优先级.md">
+<meta property="og:title" content="C运算符优先级">
 <meta property="og:url" content="https://ryany1.github.io/2024/2e96/index.html">
 <meta property="og:site_name" content="Bug Note">
-<meta property="og:description" content="C语言运算符优先级在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：  后缀运算符  expr++, expr-- (后缀递增和递减) (), [], . (函数调用，数组下标，成员访问) -&gt; (指针成员访问)   单目运算符  ++expr, --expr (前缀递增和递减) +, - (正负号) !, ~ (逻辑非和按位取反) (type">
+<meta property="og:description" content="C语言运算符优先级(持续更新)在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：  后缀运算符 expr++, expr-- (后缀递增和递减) (), [], . (函数调用，数组下标，成员访问) -&gt; (指针成员访问)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-28T15:59:20.000Z">
-<meta property="article:modified_time" content="2024-07-28T16:00:02.141Z">
+<meta property="article:modified_time" content="2024-07-28T16:03:35.866Z">
 <meta property="article:author" content="ryany">
-<meta property="article:tag" content="noob">
+<meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
 
 
@@ -41,10 +41,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ryany1.github.io/2024/2e96/","path":"2024/2e96/","title":"C运算符优先级.md"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ryany1.github.io/2024/2e96/","path":"2024/2e96/","title":"C运算符优先级"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>C运算符优先级.md | Bug Note</title>
+<title>C运算符优先级 | Bug Note</title>
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-3PE1XBQ823","only_pageview":true}</script>
   <script src="/js/third-party/analytics/google-analytics.js"></script>
@@ -147,7 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-text">C语言运算符优先级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-text">附录</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">C语言运算符优先级(持续更新)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-text">附录</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -238,12 +238,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="C运算符优先级.md | Bug Note">
+      <meta itemprop="name" content="C运算符优先级 | Bug Note">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C运算符优先级.md
+          C运算符优先级
         </h1>
 
         <div class="post-meta-container">
@@ -261,7 +261,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-07-29 00:00:02" itemprop="dateModified" datetime="2024-07-29T00:00:02+08:00">2024-07-29</time>
+      <time title="修改时间：2024-07-29 00:03:35" itemprop="dateModified" datetime="2024-07-29T00:03:35+08:00">2024-07-29</time>
     </span>
 
   
@@ -271,7 +271,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>478</span>
+      <span>483</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -288,15 +288,18 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="C语言运算符优先级"><a href="#C语言运算符优先级" class="headerlink" title="C语言运算符优先级"></a>C语言运算符优先级</h1><p>在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="C语言运算符优先级-持续更新"><a href="#C语言运算符优先级-持续更新" class="headerlink" title="C语言运算符优先级(持续更新)"></a>C语言运算符优先级(持续更新)</h1><p>在C语言中，运算符的优先级决定了表达式中运算符的计算顺序。以下是C语言运算符优先级从高到低的列表：</p>
 <ol>
-<li><p><strong>后缀运算符</strong></p>
-<ul>
+<li><strong>后缀运算符</strong><ul>
 <li><code>expr++</code>, <code>expr--</code> (后缀递增和递减)</li>
 <li><code>()</code>, <code>[]</code>, <code>.</code> (函数调用，数组下标，成员访问)</li>
 <li><code>-&gt;</code> (指针成员访问)</li>
 </ul>
 </li>
+</ol>
+<span id="more"></span>
+
+<ol start="2">
 <li><p><strong>单目运算符</strong></p>
 <ul>
 <li><code>++expr</code>, <code>--expr</code> (前缀递增和递减)</li>
@@ -396,6 +399,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C</a>
+          </div>
 
         
 
