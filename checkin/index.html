@@ -21,22 +21,32 @@
   <meta name="author" content="ryany">
   <meta name="keywords" content="noob">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="https://ryany1.github.io/archives/index.html">
+    <meta name="description" content="待施工">
+<meta property="og:type" content="website">
+<meta property="og:title" content="生活打卡">
+<meta property="og:url" content="https://ryany1.github.io/checkin/index.html">
 <meta property="og:site_name" content="0xbadc0de">
+<meta property="og:description" content="待施工">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-04T04:31:27.000Z">
+<meta property="article:modified_time" content="2024-10-04T04:40:36.643Z">
 <meta property="article:author" content="ryany">
 <meta property="article:tag" content="noob">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>归档 - 0xbadc0de</title>
+  <title>生活打卡 - 0xbadc0de</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -217,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">归档</span>
+            <span id="subtitle">生活打卡</span>
           
         </div>
 
@@ -244,33 +254,65 @@
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="list-group">
-  <p class="h4">共计 3 篇文章</p>
-  <hr>
-  
-  
-    
-      
-      <p class="h5">2024</p>
-    
-    <a href="/2024/6c83/" class="list-group-item list-group-item-action">
-      <time>09-21</time>
-      <div class="list-group-item-title">Standard-IO</div>
-    </a>
-  
-    
-    <a href="/2024/2e96/" class="list-group-item list-group-item-action">
-      <time>07-28</time>
-      <div class="list-group-item-title">C运算符优先级</div>
-    </a>
-  
-    
-    <a href="/2024/3652/" class="list-group-item list-group-item-action">
-      <time>03-22</time>
-      <div class="list-group-item-title">init</div>
-    </a>
-  
+<article class="page-content">
+  <div class="markdown-body">
+  待施工
 </div>
+
+
+  
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"1ede462822bafddb74ff","clientSecret":"9f5ca46786d76dcb7738d6dc41d6b1f2105a96f6","repo":"Blog-Comment","owner":"ryany1","admin":"ryany1","language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":true,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '3034fc0879576479147557a73dabf521'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+</article>
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
 
 
 
@@ -358,6 +400,59 @@
 
 
 
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
 
