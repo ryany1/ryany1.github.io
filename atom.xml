@@ -6,7 +6,7 @@
   <link href="https://ryany1.github.io/atom.xml" rel="self"/>
   
   <link href="https://ryany1.github.io/"/>
-  <updated>2024-10-19T16:58:57.095Z</updated>
+  <updated>2024-10-20T15:49:25.771Z</updated>
   <id>https://ryany1.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GNUPG</title>
+    <link href="https://ryany1.github.io/2024/5cf/"/>
+    <id>https://ryany1.github.io/2024/5cf/</id>
+    <published>2024-10-20T15:42:22.000Z</published>
+    <updated>2024-10-20T15:49:25.771Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="GNUPG"><a href="#GNUPG" class="headerlink" title="GNUPG"></a>GNUPG</h2><ul><li>GPG无法生成带有A功能的密钥?<ul><li>使用专家模式<code>--expert</code>,将能够生成更多类型(功能)的密<span id="more"></span></li></ul></li><li>GPG删除密钥不需要密码?<ul><li>所以说一定要备份主密钥及子密钥公钥以及私钥</li></ul></li><li>一定生成和备份revocation certificate,以防止密钥丢失或者被盗</li><li>#ryany_question:不太理解下面帖子中为什么要移除主密钥的私钥?<ul><li>主密钥只有C功能,只用于管理子密钥,所以私钥使用不多,反而泄漏风险特别高,删除后,使用时从其他设备导入进来使用即可, 缺失主密钥私钥,会限制很多密钥操作,但是删除现存子密钥是可以的,很迷惑</li></ul></li><li><code>gpg --export-secret-keys --armor &lt;主密钥ID&gt;</code>这将导出主密钥及其下所有子密钥的私钥,当然子密钥的私钥是也是可以导出的<code>--export-secret-subkeys</code></li><li>一个主密钥下,所有密钥(包括主密钥)都是共用一个公钥</li><li>争议选项<code>--export-secret-key and --export secret-keys or --delete-secret-key and --delete-secret-keys</code>字面意义上看前者是导出或者删除主密钥的私钥后者是删除所有密钥的私钥,但其实不然,前者不加s的选项已经从manual内移除,但依旧可以使用,前后者作用等价</li><li>如何实现移除主密钥的私钥?<ul><li><code>gpg -a -o all-secrets --export-secret-keys email</code></li><li>上述将导出所有私钥(子密钥+主密钥),无法实现将主密钥的私钥单独导出</li><li><code>gpg -a -o sub-secrets --export-secret-subkeys email</code></li><li>这里导出所有子密钥的私钥</li><li><code>gpg --delete-secret-keys email</code></li><li>删除所有私钥</li><li><code>gpg --import sub-secrets</code></li><li>导出子密钥的私钥</li><li><strong>#表示缺少密钥</strong>,例: <code>sec#</code>表示缺少主密钥私钥</li></ul></li></ul><h2 id="将GPG密钥用于SSH连接-github-or-host"><a href="#将GPG密钥用于SSH连接-github-or-host" class="headerlink" title="将GPG密钥用于SSH连接(github or host)"></a>将GPG密钥用于SSH连接(github or host)</h2><ul><li>生成一个主密钥,(下得有一个A功能的子密钥)</li><li><code>gpg --export-ssh-key email</code>导出这个密钥可以用于ssh的公钥</li><li>将这个公钥写入github公钥设置或者服务器<code>~/.ssh/authorized_keys</code>文件</li><li>启动服务器sshd服务<code>sudo systemctl start sshd</code></li><li><code>.gnupg/gpg-agent.conf</code>文件中添加<code>enable-ssh-support</code>选项</li><li>获取用于ssh认证的子密钥keygrip: <code>gpg --with-keygrip -k email</code></li><li><code>.gnupg/sshcontrol</code>文件内写入上述keygrip</li><li>配置gpg-agent接管ssh-agent:<code>export SSH_AUTH_SOCK=&quot;$(gpgconf --list-dirs agent-ssh-socket)&quot;</code></li><li>启动gpg-agent,可以进行ssh连接</li></ul><h2 id="自启动gpg-agent"><a href="#自启动gpg-agent" class="headerlink" title="自启动gpg-agent"></a>自启动gpg-agent</h2><p>gnupg提供了一些systemd服务: <code>/usr/lib/systemd/system/gpg-agent@.service and so on</code> , <code>/usr/lib/systemd/user/gpg-agent.service</code><br>乍眼一看,还以为需要这个服务单元用于配置gpg的守护进程,仔细一看这个服务单元是通过其他单元触发的,<br>实际gpg守护进程是使用<code>gpg-agent --daemon</code> or <code>gpgconf --launch gpg-agent</code>,将这两个命令之一添加到shell配置文件,让他随shell启动即可</p><p>参考文:<a href="https://lab.jinkan.org/2020/04/30/gnupg-in-three-steps/">人间实验室GPG</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;GNUPG&quot;&gt;&lt;a href=&quot;#GNUPG&quot; class=&quot;headerlink&quot; title=&quot;GNUPG&quot;&gt;&lt;/a&gt;GNUPG&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;GPG无法生成带有A功能的密钥?&lt;ul&gt;
+&lt;li&gt;使用专家模式&lt;code&gt;--expert&lt;/code&gt;,将能够生成更多类型(功能)的密</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://ryany1.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>劝学</title>
