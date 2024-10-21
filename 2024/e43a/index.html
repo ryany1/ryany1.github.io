@@ -18,27 +18,25 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="ryany">
+  <meta name="author" content="Ryany">
   <meta name="keywords" content="noob">
   
-    <meta name="description" content="GNUPG GPG无法生成带有A功能的密钥? 使用专家模式--expert,将能够生成更多类型(功能)的密">
+    <meta name="description" content="数值表示与存储负数的补码存储(表示) C中类型的最大值与最小值的明示常量定义在&lt;limits.h&gt;中   有符号数的存储  正数使用原码存储 负数使用补码存储 0的补码是0 “type_min &#x3D; -type_max - 1” why? 一种类型一定能表示偶数个数值,而零的原码,补码都是00…00;1…和0…的个数是相同的,而0的符号位为0,因此负数将会比正数多出一个 最大值">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GNUPG">
-<meta property="og:url" content="https://ryany1.github.io/2024/5cf/index.html">
+<meta property="og:title" content="数值表示与存储">
+<meta property="og:url" content="https://ryany1.github.io/2024/e43a/index.html">
 <meta property="og:site_name" content="0xbadc0de">
-<meta property="og:description" content="GNUPG GPG无法生成带有A功能的密钥? 使用专家模式--expert,将能够生成更多类型(功能)的密">
+<meta property="og:description" content="数值表示与存储负数的补码存储(表示) C中类型的最大值与最小值的明示常量定义在&lt;limits.h&gt;中   有符号数的存储  正数使用原码存储 负数使用补码存储 0的补码是0 “type_min &#x3D; -type_max - 1” why? 一种类型一定能表示偶数个数值,而零的原码,补码都是00…00;1…和0…的个数是相同的,而0的符号位为0,因此负数将会比正数多出一个 最大值">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ryany1.github.io/images/gnupg.jpg">
-<meta property="article:published_time" content="2024-10-20T15:42:22.000Z">
-<meta property="article:modified_time" content="2024-10-20T15:49:41.318Z">
+<meta property="article:published_time" content="2024-10-21T16:32:30.689Z">
+<meta property="article:modified_time" content="2024-10-21T16:32:30.689Z">
 <meta property="article:author" content="ryany">
-<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ryany1.github.io/images/gnupg.jpg">
   
   
   
-  <title>GNUPG - 0xbadc0de</title>
+  <title>数值表示与存储 - 0xbadc0de</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -229,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">GNUPG</span>
+            <span id="subtitle">数值表示与存储</span>
           
         </div>
 
@@ -240,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-20 23:42" pubdate>
-          2024年10月20日 晚上
+        <time datetime="2024-10-22 00:32" pubdate>
+          2024年10月22日 凌晨
         </time>
       </span>
     
@@ -252,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          694 字
+          405 字
         
       </span>
     
@@ -263,7 +261,7 @@
         
         
         
-          6 分钟
+          4 分钟
         
       </span>
     
@@ -300,64 +298,63 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">GNUPG</h1>
-            
-              <p id="updated-time" class="note note-info" style="display: none">
-                
-                  
-                    本文最后更新于 2024-10-20T23:49:41+08:00
-                  
-                  
-
-                
-              </p>
+            <h1 id="seo-header">数值表示与存储</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="GNUPG"><a href="#GNUPG" class="headerlink" title="GNUPG"></a>GNUPG</h2><ul>
-<li>GPG无法生成带有A功能的密钥?<ul>
-<li>使用专家模式<code>--expert</code>,将能够生成更多类型(功能)的密<span id="more"></span></li>
+                <h1 id="数值表示与存储"><a href="#数值表示与存储" class="headerlink" title="数值表示与存储"></a>数值表示与存储</h1><h2 id="负数的补码存储-表示"><a href="#负数的补码存储-表示" class="headerlink" title="负数的补码存储(表示)"></a>负数的补码存储(表示)</h2><blockquote>
+<p>C中类型的最大值与最小值的明示常量定义在&lt;limits.h&gt;中</p>
+</blockquote>
+<ol>
+<li><p>有符号数的存储</p>
+<ul>
+<li>正数使用原码存储</li>
+<li>负数使用补码存储</li>
+<li>0的补码是0</li>
+<li>“type_min &#x3D; -type_max - 1” why?<ul>
+<li>一种类型一定能表示偶数个数值,而零的原码,补码都是00…00;1…和0…的个数是相同的,而0的符号位为0,因此负数将会比正数多出一个</li>
+<li>最大值一定为011..11,最小值为100…00,最小值的绝对值是最大值的绝对值加1</li>
 </ul>
 </li>
-<li>GPG删除密钥不需要密码?<ul>
-<li>所以说一定要备份主密钥及子密钥公钥以及私钥</li>
+<li><strong>符号位为0的有正数和零,符号位为1的一定是负数</strong></li>
 </ul>
 </li>
-<li>一定生成和备份revocation certificate,以防止密钥丢失或者被盗</li>
-<li>#ryany_question:不太理解下面帖子中为什么要移除主密钥的私钥?<ul>
-<li>主密钥只有C功能,只用于管理子密钥,所以私钥使用不多,反而泄漏风险特别高,删除后,使用时从其他设备导入进来使用即可, 缺失主密钥私钥,会限制很多密钥操作,但是删除现存子密钥是可以的,很迷惑</li>
+<li><p>补码表示</p>
+<ul>
+<li>补码: 一个数的补码是将这个数的绝对值的二进制表示取反,然后加1</li>
 </ul>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-number">1111</span>  <span class="hljs-number">-1</span><br><span class="hljs-number">1110</span>  <span class="hljs-number">-2</span><br><span class="hljs-number">1101</span>  <span class="hljs-number">-3</span><br><span class="hljs-number">1100</span>  <span class="hljs-number">-4</span><br><span class="hljs-number">1011</span>  <span class="hljs-number">-5</span><br><span class="hljs-number">1010</span>  <span class="hljs-number">-6</span><br><span class="hljs-number">1001</span>  <span class="hljs-number">-7</span><br><span class="hljs-number">1000</span>  其绝对值为<span class="hljs-number">8</span>, 所以为<span class="hljs-number">-8</span>的补码存储 <span class="hljs-number">-8</span><br><span class="hljs-number">0111</span>  <span class="hljs-number">7</span>  <span class="hljs-number">-7</span>的补码表示: <span class="hljs-number">1001</span><br><span class="hljs-number">0110</span>  <span class="hljs-number">6</span>  <span class="hljs-number">-6</span>的补码表示: <span class="hljs-number">1010</span><br><span class="hljs-number">0101</span>  <span class="hljs-number">5</span>  <span class="hljs-number">-5</span>的补码表示: <span class="hljs-number">1011</span><br><span class="hljs-number">0100</span>  <span class="hljs-number">4</span>  <span class="hljs-number">-4</span>的补码表示: <span class="hljs-number">1100</span><br><span class="hljs-number">0011</span>  <span class="hljs-number">3</span>  <span class="hljs-number">-3</span>的补码表示: <span class="hljs-number">1101</span><br><span class="hljs-number">0010</span>  <span class="hljs-number">2</span>  <span class="hljs-number">-2</span>的补码表示: <span class="hljs-number">1110</span><br><span class="hljs-number">0001</span>  <span class="hljs-number">1</span>  <span class="hljs-number">-1</span>的补码表示: <span class="hljs-number">1111</span><br><span class="hljs-number">0000</span>  <span class="hljs-number">0</span>  <span class="hljs-number">-0</span>的补码表示: <span class="hljs-number">0000</span><br></code></pre></td></tr></table></figure>
 </li>
-<li><code>gpg --export-secret-keys --armor &lt;主密钥ID&gt;</code>这将导出主密钥及其下所有子密钥的私钥,当然子密钥的私钥是也是可以导出的<code>--export-secret-subkeys</code></li>
-<li>一个主密钥下,所有密钥(包括主密钥)都是共用一个公钥</li>
-<li>争议选项<code>--export-secret-key and --export secret-keys or --delete-secret-key and --delete-secret-keys</code>字面意义上看前者是导出或者删除主密钥的私钥后者是删除所有密钥的私钥,但其实不然,前者不加s的选项已经从manual内移除,但依旧可以使用,前后者作用等价</li>
-<li>如何实现移除主密钥的私钥?<ul>
-<li><code>gpg -a -o all-secrets --export-secret-keys email</code></li>
-<li>上述将导出所有私钥(子密钥+主密钥),无法实现将主密钥的私钥单独导出</li>
-<li><code>gpg -a -o sub-secrets --export-secret-subkeys email</code></li>
-<li>这里导出所有子密钥的私钥</li>
-<li><code>gpg --delete-secret-keys email</code></li>
-<li>删除所有私钥</li>
-<li><code>gpg --import sub-secrets</code></li>
-<li>导出子密钥的私钥</li>
-<li><strong>#表示缺少密钥</strong>,例: <code>sec#</code>表示缺少主密钥私钥</li>
-</ul>
+<li><p>我之前所犯的错误<br>我潜意识内一直将正数的符号位转换为1去表示该绝对值的负数,这种做法是错误的</p>
 </li>
-</ul>
-<h2 id="将GPG密钥用于SSH连接-github-or-host"><a href="#将GPG密钥用于SSH连接-github-or-host" class="headerlink" title="将GPG密钥用于SSH连接(github or host)"></a>将GPG密钥用于SSH连接(github or host)</h2><ul>
-<li>生成一个主密钥,(下得有一个A功能的子密钥)</li>
-<li><code>gpg --export-ssh-key email</code>导出这个密钥可以用于ssh的公钥</li>
-<li>将这个公钥写入github公钥设置或者服务器<code>~/.ssh/authorized_keys</code>文件</li>
-<li>启动服务器sshd服务<code>sudo systemctl start sshd</code></li>
-<li><code>.gnupg/gpg-agent.conf</code>文件中添加<code>enable-ssh-support</code>选项</li>
-<li>获取用于ssh认证的子密钥keygrip: <code>gpg --with-keygrip -k email</code></li>
-<li><code>.gnupg/sshcontrol</code>文件内写入上述keygrip</li>
-<li>配置gpg-agent接管ssh-agent:<code>export SSH_AUTH_SOCK=&quot;$(gpgconf --list-dirs agent-ssh-socket)&quot;</code></li>
-<li>启动gpg-agent,可以进行ssh连接</li>
-</ul>
-<h2 id="自启动gpg-agent"><a href="#自启动gpg-agent" class="headerlink" title="自启动gpg-agent"></a>自启动gpg-agent</h2><p>gnupg提供了一些systemd服务: <code>/usr/lib/systemd/system/gpg-agent@.service and so on</code> , <code>/usr/lib/systemd/user/gpg-agent.service</code><br>乍眼一看,还以为需要这个服务单元用于配置gpg的守护进程,仔细一看这个服务单元是通过其他单元触发的,<br>实际gpg守护进程是使用<code>gpg-agent --daemon</code> or <code>gpgconf --launch gpg-agent</code>,将这两个命令之一添加到shell配置文件,让他随shell启动即可</p>
-<p>参考文:<a target="_blank" rel="noopener" href="https://lab.jinkan.org/2020/04/30/gnupg-in-three-steps/">人间实验室GPG</a></p>
+</ol>
+<pre><code class="C">  char类型
+  error: 10000001 -&gt; -1
+  correct : 10000001 -&gt; -127
+  correct : 11111111 -&gt; -1
+
+ #include &lt;limits.h&gt;
+ #include &lt;stdio.h&gt;
+ #include &lt;string.h&gt;
+
+  int main(void) &#123;
+    char *name = &quot;modaiyua&quot;;
+    printf(&quot;%s\n&quot;, name);
+    char a = 0b10000001;
+    char b = 0b11111111;
+    printf(&quot;%d\n&quot;, INT_MAX + INT_MIN);
+    printf(&quot;%d\n&quot;, a);
+    printf(&quot;%d\n&quot;, b);
+
+    return 0;
+  &#125;
+  /* output
+      -1
+      -127
+      -1
+  */
+</code></pre>
 
                 
               </div>
@@ -370,7 +367,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+        <a href="/tags/C/" class="print-no-link">#C</a>
       
     </div>
   
@@ -382,20 +379,20 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>GNUPG</div>
-      <div>https://ryany1.github.io/2024/5cf/</div>
+      <div>数值表示与存储</div>
+      <div>https://ryany1.github.io/2024/e43a/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>ryany</div>
+          <div>Ryany</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月20日</div>
+          <div>2024年10月22日</div>
         </div>
       
       
@@ -427,18 +424,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/e43a/" title="数值表示与存储">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">数值表示与存储</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/5b4d/" title="劝学">
-                        <span class="hidden-mobile">劝学</span>
+                      <a href="/2024/5cf/" title="GNUPG">
+                        <span class="hidden-mobile">GNUPG</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -461,7 +452,7 @@
         var options = Object.assign(
           {"clientID":"1ede462822bafddb74ff","clientSecret":"9f5ca46786d76dcb7738d6dc41d6b1f2105a96f6","repo":"Blog-Comment","owner":"ryany1","admin":"ryany1","language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":true,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'de576db9afe903c2be98201d17c2bea6'
+            id: 'a035333cfb5038f10b7cf315da4d9a73'
           }
         )
         var gitalk = new Gitalk(options);
@@ -605,33 +596,6 @@
   
 
 
-
-
-  
-<script>
-  var relativeDate = function() {
-    var updatedTime = document.getElementById('updated-time');
-    if (updatedTime) {
-      var text = updatedTime.textContent;
-      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
-      var matchs = text.match(reg);
-      if (matchs) {
-        var relativeTime = moment(matchs[0]).fromNow();
-        updatedTime.textContent = text.replace(reg, relativeTime);
-      }
-      updatedTime.style.display = '';
-    }
-  };
-  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
-    if (!'zh-cn'.startsWith('en')) {
-      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
-        relativeDate();
-      });
-    } else {
-      relativeDate();
-    }
-  });
-</script>
 
 
   

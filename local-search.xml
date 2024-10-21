@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>数值表示与存储</title>
+    <link href="/2024/e43a/"/>
+    <url>/2024/e43a/</url>
+    
+    <content type="html"><![CDATA[<h1 id="数值表示与存储"><a href="#数值表示与存储" class="headerlink" title="数值表示与存储"></a>数值表示与存储</h1><h2 id="负数的补码存储-表示"><a href="#负数的补码存储-表示" class="headerlink" title="负数的补码存储(表示)"></a>负数的补码存储(表示)</h2><blockquote><p>C中类型的最大值与最小值的明示常量定义在&lt;limits.h&gt;中</p></blockquote><ol><li><p>有符号数的存储</p><ul><li>正数使用原码存储</li><li>负数使用补码存储</li><li>0的补码是0</li><li>“type_min &#x3D; -type_max - 1” why?<ul><li>一种类型一定能表示偶数个数值,而零的原码,补码都是00…00;1…和0…的个数是相同的,而0的符号位为0,因此负数将会比正数多出一个</li><li>最大值一定为011..11,最小值为100…00,最小值的绝对值是最大值的绝对值加1</li></ul></li><li><strong>符号位为0的有正数和零,符号位为1的一定是负数</strong></li></ul></li><li><p>补码表示</p><ul><li>补码: 一个数的补码是将这个数的绝对值的二进制表示取反,然后加1</li></ul> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-number">1111</span>  <span class="hljs-number">-1</span><br><span class="hljs-number">1110</span>  <span class="hljs-number">-2</span><br><span class="hljs-number">1101</span>  <span class="hljs-number">-3</span><br><span class="hljs-number">1100</span>  <span class="hljs-number">-4</span><br><span class="hljs-number">1011</span>  <span class="hljs-number">-5</span><br><span class="hljs-number">1010</span>  <span class="hljs-number">-6</span><br><span class="hljs-number">1001</span>  <span class="hljs-number">-7</span><br><span class="hljs-number">1000</span>  其绝对值为<span class="hljs-number">8</span>, 所以为<span class="hljs-number">-8</span>的补码存储 <span class="hljs-number">-8</span><br><span class="hljs-number">0111</span>  <span class="hljs-number">7</span>  <span class="hljs-number">-7</span>的补码表示: <span class="hljs-number">1001</span><br><span class="hljs-number">0110</span>  <span class="hljs-number">6</span>  <span class="hljs-number">-6</span>的补码表示: <span class="hljs-number">1010</span><br><span class="hljs-number">0101</span>  <span class="hljs-number">5</span>  <span class="hljs-number">-5</span>的补码表示: <span class="hljs-number">1011</span><br><span class="hljs-number">0100</span>  <span class="hljs-number">4</span>  <span class="hljs-number">-4</span>的补码表示: <span class="hljs-number">1100</span><br><span class="hljs-number">0011</span>  <span class="hljs-number">3</span>  <span class="hljs-number">-3</span>的补码表示: <span class="hljs-number">1101</span><br><span class="hljs-number">0010</span>  <span class="hljs-number">2</span>  <span class="hljs-number">-2</span>的补码表示: <span class="hljs-number">1110</span><br><span class="hljs-number">0001</span>  <span class="hljs-number">1</span>  <span class="hljs-number">-1</span>的补码表示: <span class="hljs-number">1111</span><br><span class="hljs-number">0000</span>  <span class="hljs-number">0</span>  <span class="hljs-number">-0</span>的补码表示: <span class="hljs-number">0000</span><br></code></pre></td></tr></table></figure></li><li><p>我之前所犯的错误<br>我潜意识内一直将正数的符号位转换为1去表示该绝对值的负数,这种做法是错误的</p></li></ol><pre><code class="C">  char类型  error: 10000001 -&gt; -1  correct : 10000001 -&gt; -127  correct : 11111111 -&gt; -1 #include &lt;limits.h&gt; #include &lt;stdio.h&gt; #include &lt;string.h&gt;  int main(void) &#123;    char *name = &quot;modaiyua&quot;;    printf(&quot;%s\n&quot;, name);    char a = 0b10000001;    char b = 0b11111111;    printf(&quot;%d\n&quot;, INT_MAX + INT_MIN);    printf(&quot;%d\n&quot;, a);    printf(&quot;%d\n&quot;, b);    return 0;  &#125;  /* output      -1      -127      -1  */</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>C</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>GNUPG</title>
     <link href="/2024/5cf/"/>
     <url>/2024/5cf/</url>
