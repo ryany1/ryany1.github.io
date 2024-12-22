@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Onedrive使用踩坑</title>
+    <link href="/2024/a49e/"/>
+    <url>/2024/a49e/</url>
+    
+    <content type="html"><![CDATA[<h2 id="onedrive-service"><a href="#onedrive-service" class="headerlink" title="onedrive service"></a>onedrive service</h2><h3 id="我目前所使用的onedrive服务"><a href="#我目前所使用的onedrive服务" class="headerlink" title="我目前所使用的onedrive服务"></a>我目前所使用的onedrive服务</h3><p>每晚八点启动onedrivegui同步<br>相关配置文件:</p><span id="more"></span><ul><li><p>oneDriveGUI.timer</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Unit]<br>Description=Run OneDriveGUI Service Daily at 20 PM<br><br>[Timer]<br>OnCalendar=*-*-* 20:00:00<br>Persistent=true<br>Unit=onedrivegui.service<br><br>[Install]<br>WantedBy=timers.target<br></code></pre></td></tr></table></figure></li><li><p>onedrivegui.service</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Unit]<br>Description=Boot Onedrive GUI<br>After=graphical.target<br><br>[Service]<br>;是不是应该用one-shot,oneshot会让进程退出后,unit是dead状态<br>;Type=simple<br>Type=oneshot<br>ExecStart=/bin/bash -c &quot;/usr/bin/onedrivegui &amp;&gt; /home/rya/.local/share/Log/rya.onedrive.log&quot;<br>;我退出gui之后又会自动重启,gui正常退出返回非零状态码,不需要下列选项<br>; Restart=on-failure<br>Environment=DISPLAY=:1<br><br>; [Install]块用于当systemctl enable 服务时,何时启动服务,我这里使用的是timer启动这个unit不需要这个块<br>; [Install]<br>; WantedBy=default.target<br><br></code></pre></td></tr></table></figure></li></ul><h3 id="官方提供的服务单元"><a href="#官方提供的服务单元" class="headerlink" title="官方提供的服务单元"></a>官方提供的服务单元</h3><ul><li><code>/usr/lib/systemd/system/onedrive@.service</code></li><li><code>/usr/lib/systemd/user/onedrive.service</code></li></ul><h3 id="onedrive与onedrivegui配置文件"><a href="#onedrive与onedrivegui配置文件" class="headerlink" title="onedrive与onedrivegui配置文件"></a>onedrive与onedrivegui配置文件</h3><p><code>onedrive --display-config</code>用于查看onedrive配置</p><p><strong>注意事项</strong>:<del>onedrivegui生成的配置文件为<code>.config/onedrive/accouts/acountname/config</code>,而onedrive默认配置文件位于<code>.config/onedrive/config</code>,从onedrivegui切换到onedrive读取不到配置文件的,创建一个符号链接就好(如果onedrive与onedrivegui需要加载不同的配置,那么不能使用符号链接)</del></p><ul><li><del>我onedrivegui使用的配置文件位于&#96;</del>&#x2F;.config&#x2F;onedrive&#x2F;accounts&#x2F;name&#x2F;<code>,而我onedrive的配置文件位于</code><del>&#x2F;.config&#x2F;onedrive&#x2F;&#96;</del></li></ul><p><em><strong>同时使用onedrive与onedrivegui,并加载不同配置文件可能造成同步混乱,同步错误</strong></em></p><p>造成使用不同配置的原因:onedrivegui为了更好的支持多账号,创建了accounts&#x2F;accountname&#x2F;目录,使用该目录下配置文件,而onedrive默认配置在<code>.config/onedrive</code>配置文件根目录.</p><p>若onedrive需要加载与onedrivegui一致的配置需要使用启动选项<code>--confdir path</code>,但onedrive默认的systemd服务项中confdir都是默认的onedrive根目录,所以需要自定义用户级systemd-onedrive服务单元,才能保证两个应用使用同样的配置.</p><p>不知道怎么让onedrivegui加载onedrive默认的配置文件,因为onedrivegui的profiles组织结构与onedrive配置文件目录结构匹配不上</p><p><em><strong>我的解决办法: 使用<code>systemctl --user edit</code>修改覆盖&#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;user&#x2F;onedrive.service</strong></em>,详细方法见arch-wiki-systemd</p><ul><li>我这里使用用户服务<code>ctlu enable --now onedrive</code>,而不是系统模板服务自启动<code>onedrive</code>,因为onedrive不像clash-meta一样有权限要求</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>记录第一次夜跑</title>
     <link href="/2024/bd34/"/>
     <url>/2024/bd34/</url>
